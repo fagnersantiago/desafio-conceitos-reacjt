@@ -5,50 +5,45 @@ import api from "./services/api";
 
 function App() {
 
+
+
   const [repositories, setRepositories] = useState([]);
 
   useEffect(() => {
+    
+    async function getRepositoryApi(){
 
-    api.get('repository').then(response => {
+    const response = await api.get('repositories')
 
-      setRepositories(response.data)
+    setRepositories(response.data);
 
-    });
+    };
 
-  }, []);
+    getRepositoryApi()
+
+  },[]);
 
   async function handleAddRepository() {
+    
 
-    const response = await api.post('repository', {
+    const response = await api.post('repositories', {
 
-      title: `New Repository ${Date.now()}`,
-      url: `http://localhost/repository/${Date.now()}`,
-      techs: ["ReactJs"]
+      title: 'Desafio ReactJS',
+      url: `https://github.com/fagnersantiago/desafio-conceitos-reactjs ${Date.now()}`,
+      techs: ["ReactJs",  "Node.js"]
 
 
     });
 
-    const repository = response.data;
-
-    setRepositories([...repositories, repository]);
+    setRepositories([ ...repositories, response.data]);
   }
 
   async function handleRemoveRepository(id) {
 
-    await api.delete(`repository/${id}`).then(response => {
+   await api.delete(`repositories/${id}`)
 
-      if (response.status === 204) {
-
-        setRepositories(repositories.filter(repository => repository !== id))
-
-      }
-
-
-    })
-      .catch(err => {
-
-        console.log(err)
-      });
+      setRepositories(repositories.filter(repository => repository.id !== id))
+    
   };
 
   return (
@@ -57,15 +52,14 @@ function App() {
 
 
         {repositories.map(repository => (
-          <li key={repository.id}>
+          <li   key={repository.id}>
             {repository.title}
 
             <button onClick={() => handleRemoveRepository(repository.id)}>
               Remover
           </button>
           </li>
-        ))
-        }
+        ))}
       </ul>
 
       <button onClick={handleAddRepository}>Adicionar</button>
