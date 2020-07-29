@@ -1,4 +1,4 @@
 # desafio-conceitos-reactjs
-Desafio sobre conceitos  aprendendio no bootcamp de Rocketseat
+<strong> Desafio sobre conceitos  aprendendido no bootcamp de Rocketseat </strong>
 
 
